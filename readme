@@ -1,0 +1,12 @@
+<div align="center">
+  <h3>Сбор и выгрузка дампов для сред dev, uat, ha.</h3>
+  <p style="font-size: 25px;">Нажимай кнопку ↓↓↓↓, заполняй параметры, качай.</p>
+</div>
+
+<div align="center">
+  <a href="https://CHANGE-REPO/dumps/-/pipelines/new">
+    <img src="https://CHANGE-REPO/dumps/-/raw/master/RUN%20PIPELINE.svg" alt="Run Pipeline" width="600">
+  </a>
+</div>
+
+
