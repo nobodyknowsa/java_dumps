@@ -1,0 +1,50 @@
+stages:
+  - dump
+
+variables:
+  ENV:
+    value: "dev"
+    options:
+      - "dev"
+      - "uat"
+      - "ha"
+    description: "Выберите среду. По умолчанию dev."
+  APP:
+    value: ""
+    description: "Укажите имя сервиса. ВНИМАНИЕ используется grep!!"
+  TYPE:
+    value: "thread"
+    options:
+      - "all"
+      - "thread"
+      - "heap"
+    description: "Выберите тип дампа"
+  RESTART:
+    value: "false"
+    options:
+      - "false"
+      - "true"
+    description: "Требуется перезагрузка?"
+
+
+dump:
+  stage: dump
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "api"
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+    - if: $CI_PIPELINE_SOURCE != "push"
+      when: never
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+  before_script:
+    - chmod +x dump.sh
+  script:
+    - ./dump.sh $ENV $APP $TYPE $RESTART
+  image: CHANGE-REPO/devops-dump-image:1
+  tags:
+    - CHANGE-TAG
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
